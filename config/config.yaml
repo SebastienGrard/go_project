@@ -1,7 +1,0 @@
-DB_USER: "postgres"
-DB_PASSWORD: "password"
-DB_NAME: "monitoring"
-SMTP_HOST: "smtp.gmail.com"
-SMTP_PORT: 587
-SMTP_USER: "grard.seb@gmail.com"
-SMTP_PASSWORD: "password"
