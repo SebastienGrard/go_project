@@ -1,5 +1,19 @@
 GO Project
 
+MONITORING
+
+Le projet a une finalité de monitoring.
+Dans cette version, une API va :
+- Se connecter sur un serveur via un login (username/password), et récupérer un token d'authentification.
+- Une fois la transmission du token réalisée, elle va se connecter sur un dashboard côté client.
+- Le dashboard va récupérer les informations (température CPU / GPU) de la machine, et les afficher sur le dashboard.
+
+
+TODO:
+Graphique
+Cache ?
+Stockage des données ?
+
 
 
 -----------------------------------
