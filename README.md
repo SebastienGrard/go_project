@@ -13,6 +13,7 @@ TODO:
 Graphique
 Cache ?
 Stockage des données ?
+SQL LITE
 
 
 
