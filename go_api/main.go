@@ -10,6 +10,8 @@ import (
 	"net/http"
 	"os/exec"
 	"runtime"
+	"sync"
+	"time"
 )
 
 // Structure de la requête de connexion
@@ -22,6 +24,16 @@ type LoginRequest struct {
 type LoginResponse struct {
 	Token string `json:"token"`
 }
+
+// Structure pour le cache de la page
+type PageCache struct {
+	Content    []byte
+	Expiration time.Time
+	Mutex      sync.Mutex
+}
+
+// Création du cache global pour la page welcome
+var pageCache = PageCache{}
 
 func main() {
 	// URL du serveur de connexion
@@ -65,17 +77,36 @@ func main() {
 		// Démarrer un serveur HTTP pour afficher la page welcome.html
 		go func() {
 			http.HandleFunc("/welcome", func(w http.ResponseWriter, r *http.Request) {
+				pageCache.Mutex.Lock()
+				defer pageCache.Mutex.Unlock()
+
+				// Vérifie si la page est dans le cache et n'est pas expirée
+				if pageCache.Content != nil && time.Now().Before(pageCache.Expiration) {
+					w.Header().Set("Content-Type", "text/html")
+					w.Write(pageCache.Content)
+					return
+				}
+
 				// Charger et exécuter le template HTML
 				tmpl, err := template.ParseFiles("templates/welcome.html")
 				if err != nil {
 					http.Error(w, "Erreur lors du chargement de la page", http.StatusInternalServerError)
 					return
 				}
-				// Rendre le template
-				err = tmpl.Execute(w, nil)
+
+				var buffer bytes.Buffer
+				err = tmpl.Execute(&buffer, nil)
 				if err != nil {
 					http.Error(w, "Erreur lors de l'exécution du template", http.StatusInternalServerError)
+					return
 				}
+
+				// Enregistre la page dans le cache avec une expiration de 4 minutes
+				pageCache.Content = buffer.Bytes()
+				pageCache.Expiration = time.Now().Add(4 * time.Minute)
+
+				w.Header().Set("Content-Type", "text/html")
+				w.Write(pageCache.Content)
 			})
 
 			// Démarrer le serveur HTTP pour afficher la page
@@ -109,8 +140,6 @@ func openBrowser(url string) error {
 		cmd = exec.Command("rundll32", "url.dll,FileProtocolHandler", url)
 	case "linux":
 		cmd = exec.Command("xdg-open", url)
-	case "darwin":
-		cmd = exec.Command("open", url)
 	default:
 		return fmt.Errorf("système d'exploitation non supporté : %v", os)
 	}
