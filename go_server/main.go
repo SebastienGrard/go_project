@@ -35,6 +35,7 @@ func main() {
 	defer db.Close()
 
 	createUsersTable(db)
+	addTestUser(db)
 
 	router := mux.NewRouter()
 
@@ -63,6 +64,33 @@ func createUsersTable(db *sql.DB) {
 	_, err := db.Exec(createTableSQL)
 	if err != nil {
 		log.Fatal("Erreur de création de la table users", err)
+	}
+}
+
+func addTestUser(db *sql.DB) {
+	dbMutex.Lock()
+	defer dbMutex.Unlock()
+
+	// Vérifiez si l'utilisateur existe déjà
+	var count int
+	err := db.QueryRow("SELECT COUNT(*) FROM users WHERE username = ?", "admin").Scan(&count)
+	if err != nil {
+		log.Println("Erreur lors de la vérification de l'utilisateur :", err)
+		return
+	}
+
+	// Si l'utilisateur existe déjà, on ne l'ajoute pas
+	if count > 0 {
+		log.Println("L'utilisateur 'admin' existe déjà.")
+		return
+	}
+
+	// Sinon, on ajoute l'utilisateur
+	_, err = db.Exec("INSERT INTO users (username, password) VALUES (?, ?)", "admin", "password")
+	if err != nil {
+		log.Println("Erreur lors de l'ajout de l'utilisateur de test :", err)
+	} else {
+		log.Println("Utilisateur ajouté avec succès")
 	}
 }
 
@@ -134,8 +162,8 @@ func WelcomeHandler(w http.ResponseWriter, r *http.Request) {
 
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
 		if username, ok := claims["sub"].(string); ok {
-			w.WriteHeader(http.StatusOK)
 			fmt.Println("Connexion de :", username)
+			w.WriteHeader(http.StatusOK)
 			json.NewEncoder(w).Encode(map[string]string{"message": "Bienvenue " + username})
 			return
 		}

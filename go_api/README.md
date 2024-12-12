@@ -103,3 +103,6 @@ docker run -p 8080:8080 go-vm-monitoring
 ## License
 Ce projet est sous licence MIT - voir le fichier [LICENSE](LICENSE) pour plus de détails.
 
+
+IDEE Amelioration :
+Rentrer les login en variable d'environnement (via docker run)

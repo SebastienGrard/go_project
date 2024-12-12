@@ -2,73 +2,9 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Bienvenue</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        var ws = new WebSocket("ws://localhost:9000/ws");
-
-        var ctxCPU = document.getElementById('cpuChart').getContext('2d');
-        var ctxRAM = document.getElementById('ramChart').getContext('2d');
-        var ctxDisk = document.getElementById('diskChart').getContext('2d');
-        var ctxGPU = document.getElementById('gpuChart').getContext('2d'); // Nouveau graphique pour le GPU
-
-        var cpuChart = new Chart(ctxCPU, {
-            type: 'line',
-            data: {labels: [], datasets: [{label: 'Utilisation CPU (%)', data: [], borderColor: 'rgba(255, 99, 132, 1)', fill: false}]},
-            options: {scales: {y: {beginAtZero: true}}}
-        });
-
-        var ramChart = new Chart(ctxRAM, {
-            type: 'line',
-            data: {labels: [], datasets: [{label: 'Utilisation RAM (%)', data: [], borderColor: 'rgba(54, 162, 235, 1)', fill: false}]},
-            options: {scales: {y: {beginAtZero: true}}}
-        });
-
-        var diskChart = new Chart(ctxDisk, {
-            type: 'line',
-            data: {labels: [], datasets: [{label: 'Utilisation disque (%)', data: [], borderColor: 'rgba(75, 192, 192, 1)', fill: false}]},
-            options: {scales: {y: {beginAtZero: true}}}
-        });
-
-        var gpuChart = new Chart(ctxGPU, { // Nouveau graphique pour le GPU
-            type: 'line',
-            data: {labels: [], datasets: [{label: 'Température GPU (°C)', data: [], borderColor: 'rgba(153, 102, 255, 1)', fill: false}]},
-            options: {scales: {y: {beginAtZero: true}}}
-        });
-
-        ws.onmessage = function(event) {
-            var systemInfo = JSON.parse(event.data);
-
-            var now = new Date().toLocaleTimeString();
-            if (cpuChart.data.labels.length > 10) {cpuChart.data.labels.shift(); cpuChart.data.datasets[0].data.shift();}
-            cpuChart.data.labels.push(now);
-            cpuChart.data.datasets[0].data.push(systemInfo.cpu_usage);
-
-            if (ramChart.data.labels.length > 10) {ramChart.data.labels.shift(); ramChart.data.datasets[0].data.shift();}
-            ramChart.data.labels.push(now);
-            ramChart.data.datasets[0].data.push(systemInfo.ram_usage);
-
-            if (diskChart.data.labels.length > 10) {diskChart.data.labels.shift(); diskChart.data.datasets[0].data.shift();}
-            diskChart.data.labels.push(now);
-            diskChart.data.datasets[0].data.push(systemInfo.disk_usage);
-
-            if (gpuChart.data.labels.length > 10) {gpuChart.data.labels.shift(); gpuChart.data.datasets[0].data.shift();}
-            gpuChart.data.labels.push(now);
-            gpuChart.data.datasets[0].data.push(systemInfo.gpu_temperature); // Afficher la température GPU
-
-            cpuChart.update();
-            ramChart.update();
-            diskChart.update();
-            gpuChart.update(); // Mettre à jour le graphique GPU
-        };
-    </script>
+    <title>Welcome</title>
 </head>
 <body>
-    <h1>Bienvenue sur le tableau de bord !</h1>
-    <p>Vous êtes maintenant connecté avec succès.</p>
-    <canvas id="cpuChart" width="400" height="200"></canvas>
-    <canvas id="ramChart" width="400" height="200"></canvas>
-    <canvas id="diskChart" width="400" height="200"></canvas>
-    <canvas id="gpuChart" width="400" height="200"></canvas> <!-- Nouveau graphique GPU -->
+    <h1>Bienvenue sur la page d'accueil !</h1>
 </body>
 </html>

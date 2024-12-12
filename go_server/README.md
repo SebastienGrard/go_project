@@ -166,3 +166,8 @@ GRARD Sebastien
 
 N’hésitez pas à proposer des suggestions ou des améliorations via des issues ou des pull requests.
 
+TEST : 
+
+curl -X POST http://localhost:9000/login -H "Content-Type: application/json" -d '{"username": "admin", "password": "password"}'
+
+curl -X GET http://localhost:9000/welcome -H "Authorization: Bearer YOUR_TOKEN_ID"
