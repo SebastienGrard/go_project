@@ -1,47 +1,43 @@
-Projet d’authentification en Go avec SQLite et JWT
+# Projet d’authentification en Go avec SQLite et JWT
 
-🌐 Vue d’ensemble
-
+## Description du projet
 Ce projet est une application web d’authentification simple utilisant Go (Golang). Les identifiants de connexion (nom d'utilisateur et mot de passe) sont stockés dans une base de données SQLite.
 
-Les principales fonctionnalités sont :
+## Fonctionnalités principales
+- **Authentification** : Authentification des utilisateurs avec JWT (JSON Web Token).
+- **BDD** : Stockage des utilisateurs et mots de passe dans une base de données SQLite.
+- **Concurrence** : Gestion des accès concurrents à la base de données à l’aide d’un mutex.
 
-Authentification des utilisateurs avec JWT (JSON Web Token).
+## Architecture du projet
+```plaintext
+├── README.md                 # Documentation du projet
+├── internal                  # Contient les fichiers GO
+│   └── handler.go            # Gestion des handlers
+│   └── jwt.go                # Gestion des jetons
+│   └── sql_server.go         # Gestion du serveur SQL
+├── main.go                   # Point d'entrée de l'application Go
+├── go.mod                    # Contient les paramètres GO
+└── Dockerfile                # Dockerfile pour conteneuriser l’application
+```
 
-Stockage des utilisateurs et mots de passe dans une base de données SQLite.
+## Prérequis
+- **Go** (v1.23.4 ou plus)
+- **SQLite** 
 
-Gestion des accès concurrents à la base de données à l’aide d’un mutex.
+## Installation :
+## Installation et exécution
+1. **Clôner le dépôt**
+   ```bash
+   git clone https://github.com/SebastienGrard/go_project.git
+   cd go_projet/go_server
+   ```
+2. **Démarrer l'application**
+   ```bash
+   go run main.go
+   ```
+   L'application sera disponible à l'adresse suivante : [http://localhost:9000](http://localhost:9000)
 
-📊 Architecture du projet
-
-.
-├── main.go        # Fichier principal avec les routes et la logique d'authentification
-├── users.db       # Base de données SQLite (générée automatiquement au premier démarrage)
-└── README.md      # Ce fichier de documentation
-
-📘 Installation et exécution
-
-Prérequis
-
-Go (v1.18 ou plus)
-
-SQLite
-
-Installation
-
-Clonez le dépôt :
-
-git clone https://github.com/votre-utilisateur/votre-depot.git
-cd votre-depot
-
-Exécutez l'application :
-
-go run main.go
-
-Accédez à l'application sur :
-http://localhost:8080
-
-🔧 Utilisation de l’API
+## **Utilisation de l’API**
 
 1. Route : /login (POST)
 
@@ -75,7 +71,7 @@ Réponse :
   "message": "Bienvenue utilisateur"
 }
 
-🔠 Détails techniques
+## **Détails techniques**
 
 1. Base de données SQLite
 
@@ -136,17 +132,13 @@ Vérification du JWT :
 
 Le JWT est vérifié à chaque requête à /welcome.
 
-🔄 Améliorations possibles
+## **Améliorations possibles**
 
-Chiffrement des mots de passe : Remplacer le stockage direct des mots de passe par une version hachée (par exemple, en utilisant bcrypt).
+- **Chiffrement des mots de passe** : Remplacer le stockage direct des mots de passe par une version hachée (par exemple, en utilisant bcrypt).
+- **Gestion des permissions** : Ajouter des rôles d’utilisateurs et des autorisations spécifiques.
+- **Gestion des erreurs** : Meilleure gestion des erreurs HTTP et des exceptions.
 
-Gestion des permissions : Ajouter des rôles d’utilisateurs et des autorisations spécifiques.
-
-Gestion des erreurs : Meilleure gestion des erreurs HTTP et des exceptions.
-
-📊 Diagrammes et illustrations
-
-🔄 Flux de l'authentification
+## **Flux de l'authentification**
 
 graph TD;
     A[Démarrage de l'application] --> B[Requête POST /login];
@@ -155,19 +147,21 @@ graph TD;
     D --> E[Renvoi du token JWT];
     C -->|Invalide| F[Erreur 401: Non autorisé];
 
-🌐 Structure des routes
+## **Structure des routes**
 
 GET  /welcome     - Accès restreint, nécessite un token JWT
 POST /login       - Génère un JWT en cas de connexion réussie
 
-🌐 Contributeurs
+
+## **TEST**
+
+curl -X POST http://localhost:9000/login -H "Content-Type: application/json" -d '{"username": "admin", "password": "password"}'
+curl -X GET http://localhost:9000/welcome -H "Authorization: Bearer YOUR_TOKEN_ID"
+
+## **Contributeurs**
 
 GRARD Sebastien
 
-N’hésitez pas à proposer des suggestions ou des améliorations via des issues ou des pull requests.
+## License
 
-TEST : 
-
-curl -X POST http://localhost:9000/login -H "Content-Type: application/json" -d '{"username": "admin", "password": "password"}'
-
-curl -X GET http://localhost:9000/welcome -H "Authorization: Bearer YOUR_TOKEN_ID"
+Ce projet est sous licence MIT - voir le fichier [LICENSE](LICENSE) pour plus de détails.
