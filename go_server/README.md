@@ -162,7 +162,7 @@ POST /login       - Génère un JWT en cas de connexion réussie
 
 🌐 Contributeurs
 
-Votre nom
+GRARD Sebastien
 
 N’hésitez pas à proposer des suggestions ou des améliorations via des issues ou des pull requests.
 

@@ -45,8 +45,8 @@ func main() {
 
 	router.HandleFunc("/welcome", WelcomeHandler).Methods("GET")
 
-	fmt.Println("Serveur démarré sur http://localhost:8080")
-	log.Fatal(http.ListenAndServe(":8080", router))
+	fmt.Println("Serveur démarré sur http://localhost:9000")
+	log.Fatal(http.ListenAndServe(":9000", router))
 }
 
 // Création de la table "users" si elle n'existe pas déjà
@@ -122,7 +122,7 @@ func WelcomeHandler(w http.ResponseWriter, r *http.Request) {
 
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, fmt.Errorf("Méthode de signature inattendue")
+			return nil, fmt.Errorf("methode de signature inattendue")
 		}
 		return jwtKey, nil
 	})
@@ -135,6 +135,7 @@ func WelcomeHandler(w http.ResponseWriter, r *http.Request) {
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
 		if username, ok := claims["sub"].(string); ok {
 			w.WriteHeader(http.StatusOK)
+			fmt.Println("Connexion de :", username)
 			json.NewEncoder(w).Encode(map[string]string{"message": "Bienvenue " + username})
 			return
 		}
