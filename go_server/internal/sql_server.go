@@ -25,11 +25,11 @@ func CreateUsersTable(db *sql.DB) {
 	}
 }
 
+// Add a user in the database. Check if he's already in the database, if it's not, then add in it.
 func AddUser(db *sql.DB) {
 	DbMutex.Lock()
 	defer DbMutex.Unlock()
 
-	// Vérifiez si l'utilisateur existe déjà
 	var count int
 	err := db.QueryRow("SELECT COUNT(*) FROM users WHERE username = ?", "admin").Scan(&count)
 	if err != nil {
@@ -37,13 +37,11 @@ func AddUser(db *sql.DB) {
 		return
 	}
 
-	// Si l'utilisateur existe déjà, on ne l'ajoute pas
 	if count > 0 {
 		log.Println("L'utilisateur 'admin' existe déjà.")
 		return
 	}
 
-	// Sinon, on ajoute l'utilisateur
 	_, err = db.Exec("INSERT INTO users (username, password) VALUES (?, ?)", "admin", "password")
 	if err != nil {
 		log.Println("Erreur lors de l'ajout de l'utilisateur de test :", err)

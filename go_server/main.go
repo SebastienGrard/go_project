@@ -12,14 +12,8 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-// Structure de la requête de connexion
-type LoginRequest struct {
-	Username string `json:"username"`
-	Password string `json:"password"`
-}
-
 func main() {
-	// Initialisation de la base de données SQLite
+	// Initiate the SQL database
 	db, err := sql.Open("sqlite3", "./users.db")
 	if err != nil {
 		log.Fatal("Erreur d'ouverture de la base de données", err)
@@ -31,7 +25,6 @@ func main() {
 
 	router := mux.NewRouter()
 
-	// Routes
 	router.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
 		internal.LoginHandler(w, r, db)
 	}).Methods("POST")

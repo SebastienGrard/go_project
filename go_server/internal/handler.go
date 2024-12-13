@@ -9,7 +9,7 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-// Structure de la requête de connexion
+// Struct of the login request (username+password)
 type LoginRequest struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
@@ -55,7 +55,6 @@ func LoginHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	json.NewEncoder(w).Encode(map[string]string{"token": jwtToken})
 }
 
-// Handler de la page de bienvenue
 func WelcomeHandler(w http.ResponseWriter, r *http.Request) {
 	tokenString := r.Header.Get("Authorization")
 	if tokenString == "" {

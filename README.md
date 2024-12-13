@@ -1,4 +1,4 @@
-# Projet d’authentification en Go avec SQLite et JWT
+# GO SERVER
 
 ## Description du projet
 Ce projet est une application web d’authentification simple utilisant Go (Golang). Les identifiants de connexion (nom d'utilisateur et mot de passe) sont stockés dans une base de données SQLite.
@@ -165,7 +165,7 @@ curl -X GET http://localhost:9000/welcome -H "Authorization: Bearer YOUR_TOKEN_I
 ##############################################################################################
 ##############################################################################################
 
-# Projet avec GOLANG
+# GO API
 
 ## Description du projet
 Ce projet consiste à développer un serveur d'authentification. Il utilise une base de données SQLite. L'utilisateur se connecte via ses identifiants, et récupère un jeton pour accéder à des services.
