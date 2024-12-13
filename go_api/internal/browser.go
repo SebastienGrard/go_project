@@ -6,6 +6,7 @@ import (
 	"runtime"
 )
 
+// Open the browser after the connexion
 func OpenBrowser(url string) error {
 	var cmd *exec.Cmd
 	switch os := runtime.GOOS; os {

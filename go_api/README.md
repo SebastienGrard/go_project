@@ -1,4 +1,4 @@
-# Projet avec GOLANG
+# GO API
 
 ## Description du projet
 Ce projet consiste à développer un serveur d'authentification. Il utilise une base de données SQLite. L'utilisateur se connecte via ses identifiants, et récupère un jeton pour accéder à des services.

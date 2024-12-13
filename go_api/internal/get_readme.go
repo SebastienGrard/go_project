@@ -6,6 +6,7 @@ import (
 	"net/http"
 )
 
+// GET the README file, could put the URL in an environment variable.
 func GetReadmeContent() (string, error) {
 	url := "https://raw.githubusercontent.com/SebastienGrard/go_project/testing/go_api/README.md"
 	resp, err := http.Get(url)
